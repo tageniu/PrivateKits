@@ -310,6 +310,16 @@ public class Rendition: Hashable {
             case .image(let cgImage):
                 view = UIImageView(image: UIImage(cgImage: cgImage))
                 view.clipsToBounds = true
+            case .rawData(let data):
+                // Decide how raw data should be handled.
+                // For example, try converting to an image:
+                if let image = UIImage(data: data) {
+                    view = UIImageView(image: image)
+                    view.clipsToBounds = true
+                } else {
+                    // fallback if data can't produce an image
+                    view.backgroundColor = .clear
+                }
             }
             
             return view
